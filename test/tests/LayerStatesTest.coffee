@@ -1,7 +1,7 @@
 assert = require "assert"
 {expect} = require "chai"
 
-initialStateName = "default"
+initialStateName = "initial"
 
 describe "LayerStates", ->
 

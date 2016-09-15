@@ -36,16 +36,17 @@ deprecatedProperty = (object, name, replacementSuggestion, stateMachine, getter,
 
 class exports.LayerStates
 	constructor: (stateMachine) ->
-		readOnlyProperty @, "default", true, -> @initial
-		readOnlyProperty @, "initial", false, -> stateMachine.initial
 		readOnlyProperty @, "previous", false, -> @previousName
 		readOnlyProperty @, "current", false, -> @currentName
+		readOnlyProperty @, "initial", true, -> stateMachine.initial
 		readOnlyProperty @, "previousName", false, -> stateMachine.previousName
 		readOnlyProperty @, "currentName", false, -> stateMachine.currentName
 		readOnlyProperty @, "_previousState", false, -> stateMachine.previous
 		readOnlyProperty @, "_currentState", false, -> stateMachine.current
 
 		## Deprecated methods
+		deprecatedProperty @, "default", "layer.states.initial", stateMachine, (layer) ->
+			layer.states.initial
 		deprecatedProperty @, "add", "layer.states = ", stateMachine, (layer) ->
 			(states, object={}) ->
 				if _.isString states
