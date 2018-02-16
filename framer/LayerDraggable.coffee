@@ -287,6 +287,7 @@ class exports.LayerDraggable extends BaseClass
 		@_ignoreUpdateLayerPosition = true
 		@_lastEvent = null
 		@_eventBuffer.reset()
+		print "draggable touch end"
 
 
 	##############################################################

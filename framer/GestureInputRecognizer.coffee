@@ -28,6 +28,7 @@ class exports.GestureInputRecognizer
 		@session = null
 
 	startMouse: (event) =>
+		print "startmouse"
 		return if @session
 		@em.wrap(window).addEventListener("mousemove", @touchmove)
 		@em.wrap(window).addEventListener("mouseup", @touchend)
@@ -88,16 +89,21 @@ class exports.GestureInputRecognizer
 
 		event = @_getGestureEvent(event)
 
+		cancelClick = false
 		for eventName, value of @session.started
-			@["#{eventName}end"](event) if value
+			if value
+				cancelClick = true
+				@["#{eventName}end"](event)
 
-		# We only want to fire a tap event if the original target is the same
-		# as the release target, so buttons work the way you expect if you
-		# release the mouse outside.
-		if not @session?.startEvent
-			@tap(event)
-		else if @session.startEvent.target is event.target
-			@tap(event)
+		print cancelClick, event
+		if not cancelClick
+			# We only want to fire a tap event if the original target is the same
+			# as the release target, so buttons work the way you expect if you
+			# release the mouse outside.
+			if not @session?.startEvent
+				@tap(event)
+			else if @session.startEvent.target is event.target
+				@tap(event)
 
 		@tapend(event)
 		@cancel()
@@ -175,6 +181,7 @@ class exports.GestureInputRecognizer
 		@_dispatchEvent("panstart", event, @session.started.pan.target)
 
 	pan: (event) =>
+		print "pan event"
 		@_dispatchEvent("pan", event, @session.started.pan.target)
 		direction = @_getDirection(event.delta)
 		@["pan#{direction}"](event) if direction

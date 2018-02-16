@@ -1460,7 +1460,6 @@ class exports.Layer extends BaseClass
 		get: -> @_context.domEventManager.wrap(@_element)
 
 	emit: (eventName, args...) ->
-
 		# If this layer has a parent draggable view and its position moved
 		# while dragging we automatically cancel click events. This is what
 		# you expect when you add a button to a scroll content layer. We only
@@ -1473,6 +1472,8 @@ class exports.Layer extends BaseClass
 				Events.Click, Events.Tap, Events.TapStart, Events.TapEnd,
 				Events.LongPress, Events.LongPressStart, Events.LongPressEnd]
 
+					debugger
+					print "layer click event"
 					# If we dragged any layer, we should cancel click events
 					return if LayerDraggable._globalDidDrag is true
 
@@ -1519,6 +1520,7 @@ class exports.Layer extends BaseClass
 		if not _.startsWith(eventName, "change:")
 			@ignoreEvents = false
 
+		console.log "add listener", eventName, @name
 		# If this is a dom event, we want the actual dom node to let us know
 		# when it gets triggered, so we can emit the event through the system.
 		if Utils.domValidEvent(@_element, eventName) or eventName in _.values(Gestures)
